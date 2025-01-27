@@ -1,7 +1,12 @@
 <script>
-	import Counter from './../Counter.svelte';
+	import PackageInfo from './../PackageInfo.svelte';
+
+	const pkg = {
+		name: 'svelte',
+		version: 5,
+		description: 'blazing fast',
+		website: 'https://svelte.dev'
+	};
 </script>
 
-<Counter />
-<Counter />
-<Counter />
+<PackageInfo {...pkg} />
