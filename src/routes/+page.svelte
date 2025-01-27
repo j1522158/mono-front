@@ -1,16 +1,19 @@
 <script>
-	let numbers = $state([1, 2, 3, 4]);
-	let total = $derived(numbers.reduce((t, n) => t + n, 0));
+	let elapsed = $state(0);
+	let interval = $state(1000);
 
-	function addNumber() {
-		numbers.push(numbers.length + 1);
-	}
+	$effect(() => {
+		const id = setInterval(() => {
+			elapsed += 1;
+		}, interval);
 
-	$inspect(numbers).with(console.trace);
+		return () => {
+			clearInterval(id);
+		};
+	});
 </script>
 
-<p>{numbers.join(' + ')} = {total}</p>
+<button onclick={() => interval /= 2}>speed up</button>
+<button onclick={() => interval *= 2}>slow down</button>
 
-<button onclick={addNumber}>
-	Add a number
-</button>
+<p>elapsed: {elapsed}</p>
