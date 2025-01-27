@@ -3,4 +3,3 @@
 </script>
 
 <p>The answer is {answer}</p>
-
