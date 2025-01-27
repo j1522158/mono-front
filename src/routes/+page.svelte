@@ -4,8 +4,9 @@
 
 	function addNumber() {
 		numbers.push(numbers.length + 1);
-		console.log(numbers);
 	}
+
+	$inspect(numbers).with(console.trace);
 </script>
 
 <p>{numbers.join(' + ')} = {total}</p>
