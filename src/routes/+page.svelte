@@ -1,5 +1,7 @@
 <script>
-	let string = `this string contains some <strong>HTML!!!</strong>`;
+	import Counter from './../Counter.svelte';
 </script>
 
-<p>{@html string}</p>
+<Counter />
+<Counter />
+<Counter />
