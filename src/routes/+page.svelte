@@ -4,6 +4,7 @@
 
 	function addNumber() {
 		numbers.push(numbers.length + 1);
+		console.log(numbers);
 	}
 </script>
 
