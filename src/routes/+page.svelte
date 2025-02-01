@@ -1,9 +1,14 @@
 <script>
-	import Stepper from './../Stepper.svelte';
+	import BigRedButton from './../BigRedButton.svelte';
+	import horn from './../horn.mp3';
 
-	let value = $state(0);
+	const audio = new Audio();
+	audio.src = horn;
+
+	function honk() {
+		audio.load();
+		audio.play();
+	}
 </script>
 
-<p>The current value is {value}</p>
-
-<Stepper />
+<BigRedButton onclick={honk} />
