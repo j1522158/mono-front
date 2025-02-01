@@ -5,7 +5,7 @@ export async function fetchUsers() {
 }
 
 export async function updateUser(id: string, name: string) {
-    const response = await fetch("/Users", {
+    const response = await fetch("http://localhost:3000/Users", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, name })
@@ -15,7 +15,7 @@ export async function updateUser(id: string, name: string) {
 }
 
 export async function deleteUser(id: string) {
-    const response = await fetch(`/Users?id=${id}`, {
+    const response = await fetch(`http://localhost:3000/Users?id=${id}`, {
         method: "DELETE"
     });
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
