@@ -1,12 +1,17 @@
 <script>
-	import PackageInfo from './../PackageInfo.svelte';
+	import { roll } from './../utils.js';
 
-	const pkg = {
-		name: 'svelte',
-		version: 5,
-		description: 'blazing fast',
-		website: 'https://svelte.dev'
-	};
+	let promise = $state(roll());
 </script>
 
-<PackageInfo {...pkg} />
+<button onclick={() => promise = roll()}>
+	roll the dice
+</button>
+
+{#await promise}
+	<p>...rolling</p>
+{:then number}
+	<p>you rolled a {number}!</p>
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
