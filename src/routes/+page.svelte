@@ -1,17 +1,14 @@
 <script>
-	import { roll } from './../utils.js';
+	import BigRedButton from './../BigRedButton.svelte';
+	import horn from './../horn.mp3';
 
-	let promise = $state(roll());
+	const audio = new Audio();
+	audio.src = horn;
+
+	function honk() {
+		audio.load();
+		audio.play();
+	}
 </script>
 
-<button onclick={() => promise = roll()}>
-	roll the dice
-</button>
-
-{#await promise}
-	<p>...rolling</p>
-{:then number}
-	<p>you rolled a {number}!</p>
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await}
+<BigRedButton onclick={honk} />
