@@ -7,21 +7,21 @@
         name: string;
     }
 
-    let allUsers: User[] = []; // APIから取得した全ユーザー
-    let filteredUsers: User[] = []; // 絞り込み後の表示用データ
-    let paginatedUsers: User[] = []; // 現在のページに表示するデータ
+    let allUsers: User[] = [];
+    let filteredUsers: User[] = [];
+    let paginatedUsers: User[] = [];
 
     let searchId = "";
     let searchName = "";
-    let sortOrder = "asc"; // ソート順 ("asc" = 昇順, "desc" = 降順)
+    let sortOrder = "asc";
 
     let currentPage = 1;
-    const pageSize = 10; // 1ページあたりの件数
+    const pageSize = 10;
 
     async function loadUsers() {
         try {
-            allUsers = await fetchUsers(); // API から全ユーザーを取得
-            filterUsers(); // 初期表示時に検索・ソート・ページネーション適用
+            allUsers = await fetchUsers();
+            filterUsers();
         } catch (error) {
             console.error("Error fetching users:", error);
         }
@@ -39,7 +39,7 @@
                     : b.id.localeCompare(a.id, undefined, { numeric: true });
             });
 
-        currentPage = 1; // 検索時にページをリセット
+        currentPage = 1;
         updatePagination();
     }
 
@@ -68,11 +68,9 @@
 
 <h1>ユーザー一覧</h1>
 
-<!-- 検索入力欄 -->
 <input type="text" bind:value={searchId} placeholder="ID検索">
 <input type="text" bind:value={searchName} placeholder="名前検索">
 
-<!-- ソート選択 -->
 <select bind:value={sortOrder}>
     <option value="asc">ID 昇順</option>
     <option value="desc">ID 降順</option>
@@ -91,13 +89,12 @@
         {#each paginatedUsers as user}
             <tr>
                 <td>{user.id}</td>
-                <td>{user.name}</td>
+                <td><a href={`/user/${user.id}`}>{user.name}</a></td>
             </tr>
         {/each}
     </tbody>
 </table>
 
-<!-- ページネーション -->
 <div>
     <button on:click={prevPage} disabled={currentPage === 1}>前へ</button>
     <span>ページ {currentPage} / {Math.ceil(filteredUsers.length / pageSize)}</span>

@@ -1,43 +1,47 @@
-<script>
+<script lang="ts">
     import { page } from "$app/stores";
-    import { onMount } from "svelte";
+    import { fetchUsers, updateUser, deleteUser } from "$lib/api";
     import { goto } from "$app/navigation";
-  
-    let id = "";
-    let name = "";
-  
-    export async function fetchUsers() {
-    const response = await fetch("http://localhost:3000/Users");
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-    return await response.json();
-}
+    import { onMount } from "svelte";
 
-  
-    async function saveUser() {
-      await fetch(`/api/users/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name })
-      });
-      alert("更新しました！");
+    let user = { id: "", name: "" };
+
+    async function loadUser() {
+        const userId = $page.params.id;
+        const users = await fetchUsers();
+        user = users.find((u: { id: string; name: string }) => u.id === userId) || { id: "", name: "ユーザーが見つかりません" };
     }
-  
-    async function deleteUser() {
-      if (confirm("本当に削除しますか？")) {
-        await fetch(`/api/users/${id}`, { method: "DELETE" });
-        alert("削除しました！");
-        goto("/");
-      }
+
+    async function handleUpdate() {
+        if (user.name.trim() === "") {
+            alert("名前を入力してください。");
+            return;
+        }
+        await updateUser(user.id, user.name);
+        alert("ユーザー情報を更新しました！");
     }
-  
-    onMount(fetchUsers);
-  </script>
-  
-  <h1>ユーザー詳細</h1>
-  <label for="user-id">ID: {id}</label>
-  <label for="user-name">名前：</label>
-  <input id="user-name" type="text" bind:value={name} placeholder="名前">
-  <button on:click={saveUser}>更新</button>
-  <button on:click={deleteUser}>削除</button>
-  <button on:click={() => goto("/")}>戻る</button>
+
+    async function handleDelete() {
+        if (confirm("本当に削除しますか？")) {
+            await deleteUser(user.id);
+            alert("ユーザーを削除しました！");
+            goto("/");
+        }
+    }
+
+    onMount(loadUser);
+</script>
+
+<h1>ユーザー詳細</h1>
+
+<div style="font-size: 24px; margin-top: 20px;">
+    <p><strong>ID:</strong> {user.id}</p>
+    <p><strong>名前:</strong> <input type="text" bind:value={user.name}></p>
+</div>
+
+<button on:click={handleUpdate}>更新</button>
+<button on:click={handleDelete} style="background-color: red; color: white;">削除</button>
+<button on:click={() => goto("/")}>戻る</button>
+
+
   
