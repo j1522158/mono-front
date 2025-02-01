@@ -1,6 +1,6 @@
-<script lang="ts">
+<script>
 	let scoops = $state(1);
-	let flavours = $state<string[]>([]);
+	let flavours = $state([]);
 
 	const formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
 </script>
@@ -22,18 +22,11 @@
 
 <h2>Flavours</h2>
 
-{#each ['cookies and cream', 'mint choc chip', 'raspberry ripple'] as flavour}
-	<label>
-		<input
-			type="checkbox"
-			name="flavours"
-			value={flavour}
-			bind:group={flavours}
-		/>
-
-		{flavour}
-	</label>
-{/each}
+<select multiple bind:value={flavours}>
+	{#each ['cookies and cream', 'mint choc chip', 'raspberry ripple'] as flavour}
+		<option>{flavour}</option>
+	{/each}
+</select>
 
 {#if flavours.length === 0}
 	<p>Please select at least one flavour</p>
