@@ -1,23 +1,3 @@
-<script>
-	let m = $state({ x: 0, y: 0 });
-</script>
-
-<div
-	onpointermove={(event) => {
-		m.x = event.clientX;
-		m.y = event.clientY;
-	}}
->
-	The pointer is at {Math.round(m.x)} x {Math.round(m.y)}
+<div onkeydowncapture={(e) => alert(`<div> ${e.key}`)} role="presentation">
+	<input onkeydowncapture={(e) => alert(`<input> ${e.key}`)} />
 </div>
-
-<style>
-	div {
-		position: fixed;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		padding: 1rem;
-	}
-</style>
