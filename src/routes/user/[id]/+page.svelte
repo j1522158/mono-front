@@ -4,31 +4,36 @@
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
 
-    let user = { id: "", name: "" };
+    // user.id を number 型に変更
+    let user = { id: 0, name: "" };
 
+    // ユーザー情報をロードする関数
     async function loadUser() {
-        const userId = $page.params.id;
+        const userId = Number($page.params.id); // params.id を number 型に変換
         const users = await fetchUsers();
-        user = users.find((u: { id: string; name: string }) => u.id === userId) || { id: "", name: "ユーザーが見つかりません" };
+        user = users.find((u: { id: number; name: string }) => u.id === userId) || { id: 0, name: "ユーザーが見つかりません" };
     }
 
+    // ユーザー情報を更新する関数
     async function handleUpdate() {
         if (user.name.trim() === "") {
             alert("名前を入力してください。");
             return;
         }
-        await updateUser(user.id, user.name);
+        await updateUser(String(user.id), user.name); // user.id を string 型に変換
         alert("ユーザー情報を更新しました！");
     }
 
+    // ユーザーを削除する関数
     async function handleDelete() {
         if (confirm("本当に削除しますか？")) {
-            await deleteUser(user.id);
+            await deleteUser(String(user.id)); // user.id を string 型に変換
             alert("ユーザーを削除しました！");
             goto("/");
         }
     }
 
+    // コンポーネントがマウントされたときにユーザー情報をロード
     onMount(loadUser);
 </script>
 

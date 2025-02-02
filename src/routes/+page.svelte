@@ -2,8 +2,9 @@
     import { onMount } from "svelte";
     import { fetchUsers } from "$lib/api";
 
+    // id を number 型に変更
     interface User {
-        id: string;
+        id: number;
         name: string;
     }
 
@@ -11,7 +12,8 @@
     let filteredUsers: User[] = [];
     let paginatedUsers: User[] = [];
 
-    let searchId = "";
+    // searchId を number 型に変更
+    let searchId: number | "" = "";
     let searchName = "";
     let sortOrder = "asc";
 
@@ -30,13 +32,12 @@
     function filterUsers() {
         filteredUsers = allUsers
             .filter(user => 
-                (searchId === "" || user.id.includes(searchId)) &&
+                (searchId === "" || user.id.toString().includes(searchId.toString())) &&  // 数字も文字列で検索できるように変更
                 (searchName === "" || user.name.toLowerCase().includes(searchName.toLowerCase()))
             )
             .sort((a, b) => {
-                return sortOrder === "asc" 
-                    ? a.id.localeCompare(b.id, undefined, { numeric: true })
-                    : b.id.localeCompare(a.id, undefined, { numeric: true });
+                // 数値として比較
+                return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
             });
 
         currentPage = 1;
@@ -68,7 +69,7 @@
 
 <h1>ユーザー一覧</h1>
 
-<input type="text" bind:value={searchId} placeholder="ID検索">
+<input type="number" bind:value={searchId} placeholder="ID検索">  <!-- type="number" に変更 -->
 <input type="text" bind:value={searchName} placeholder="名前検索">
 
 <select bind:value={sortOrder}>
