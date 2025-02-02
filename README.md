@@ -1,38 +1,33 @@
-# sv
+# mono-front
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This project uses Svelte, the Radical JavaScript Framework.
 
-## Creating a project
+If you want to learn more about Svelte, please visit its website: <https://svelte.dev/>.
 
-If you're seeing this, you've probably already done this step. Congrats!
 
-```bash
-# create a new project in the current directory
-npx sv create
+## 技術スタック
 
-# create a new project in my-app
-npx sv create my-app
+| 項目          | 使用技術         | バージョン     |
+|-------------|--------------|-----------|
+| **Frontend** | Svelte         | 5        |
+|             | SvelteKit      | 2.16.0    |
+|             | TypeScript | 5 |
+
+## ディレクトリ構成
+```
+src/
+├── lib/
+│   ├── api.ts           # API関連
+│   └── index.ts         # エクスポートやユーティリティ用
+├── routes/
+│   ├── user/            
+│   │   └── [id]/
+│   │       └── +page.svelte  # ユーザー詳細画面
+│   ├── +layout.svelte   # 共通レイアウト
+│   └── +page.svelte     # ユーザ一覧画面(Top画面)
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+## 実行方法
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
+pnpm dev --open
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
